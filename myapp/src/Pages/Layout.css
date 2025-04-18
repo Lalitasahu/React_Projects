@@ -1,0 +1,141 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  
+}
+.gap{
+  gap: 50px;
+}
+
+.nav-b{
+  line-height: 25px;
+  padding: 5px;
+  background-color: black;
+  color: white;
+}
+
+nav{
+  line-height: 30px;
+  margin:10px;
+  padding:5px;
+  /* height: 70px; */
+  /* background-color: antiquewhite; */
+}
+ 
+nav ul div{
+  display: flex;
+  /* margin: 5px; */
+  /* padding: 3px; */
+  /* border-bottom: 1px solid gray; */
+  /* text-align: center; */
+  align-content: center;
+  justify-content: space-between;
+}
+
+a{
+  color: black;
+  font-size: 22px;
+  /* align-content: center; */
+  text-decoration: none;
+}
+
+.nav-b a{
+  color: white;
+  font-size: 18px;
+  padding: 3px;
+}
+.search-bar{
+  width: 170px;
+  height: 30px;
+  border: 1px solid black;
+  /* border-radius: 30px; */
+  outline: none;
+}
+.search-bar-b{
+  width: 80px;
+  height: 30px;
+  /* background-color: blue; */
+}
+
+/* .signup{
+  background-color: #04AA6D !important;
+  text-align: center;
+  align-content: center;
+  border-radius:20px;
+  width: 140px;
+  height: 40px;
+  white-space: normal;
+  z-index: 5;
+}
+
+.login{
+  background-color:  #04AA6D !important;
+  text-align: center;
+  align-content: center;
+  border-radius:20px;
+  width: 140px;
+  height: 40px;
+  z-index: 5;
+} */
+
+.toggle-container {
+  display: inline-flex;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  outline: none;
+  background-color: #dbebe0; 
+  color: black;
+  font-size: 16px;
+  cursor: pointer;
+  /* transition: background 0.5s; */
+}
+
+.btn.active {
+  background-color: #4CAF50; /* green */
+  color: white;
+}
+
+
+.tag-container {
+  width: 1000px;
+  /* align-content: center; */
+  /* background-color: aqua; */
+  margin:auto;
+  padding: 8px 12px;
+}
+
+.tag {
+  /* gap:10px; */
+  display: inline-block;
+  padding:8px 12px;
+  margin:20px 40px 3px 0px;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: #eaeaea;
+  border:1px solid #aaa8a8;
+  border-radius:6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.tag:hover {
+  background-color: #d0d0d0;
+}
+
+
+
+.service{
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+  padding: 10px;
+  width: 750px;
+}
+
