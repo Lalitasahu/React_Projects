@@ -1,3 +1,9 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+
+
 /* Reset */
 * {
   margin: 0;
@@ -5,8 +11,17 @@
   box-sizing: border-box;
   
 }
+
+.nav-b{
+  display: none;
+}
+
 .gap{
   gap: 50px;
+}
+
+.flex{
+  display: flex;
 }
 
 .nav-b{
@@ -26,7 +41,7 @@ nav{
  
 nav ul div{
   display: flex;
-  /* margin: 5px; */
+  margin: 5px;
   /* padding: 3px; */
   /* border-bottom: 1px solid gray; */
   /* text-align: center; */
@@ -139,3 +154,29 @@ a{
   width: 750px;
 }
 
+.containers-certi{
+  background-color: #eaeaea;
+  width: 300px;
+  line-height: 300px;
+  align-content: center;
+  text-align: center;
+  margin: 5px;
+  padding: 5px;
+  transition: background 0.2s ease;
+}
+.containers-certi:hover {
+  background-color: #d0d0d0;
+}
+
+
+li:hover{
+  color: white;
+  background-color: #059862;
+  -ms-transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+
+}
+nav a:hover{
+  color: white;
+}

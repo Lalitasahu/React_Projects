@@ -1,11 +1,43 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { useEffect,useState } from 'react';
 
 
 const Tutorial = () => {
+
+  const [products,setProducts] = useState({})
+
+  const getProducts = async () =>{
+    let url = "http://localhost:8000/api/Product/"
+    const response = await fetch(url)
+    setProducts(await response.json())
+
+  }
+
+
+  // useEffect(()=>{
+  //   getProducts()
+  // },[])
+
+  console.log(products)
+
   return (
     <>
-    <div className='tag-container'>
+    <h1 onClick={()=>getProducts()}>Products</h1>
+
+
+
+    {products?.results?.map((e,index)=>{
+      return <>
+        <div>
+          <h2>{e.title}</h2>
+          <h3>{e.price}</h3>
+        </div>
+      </>
+    })}
+
+
+    <div className='tag-container' style={{display:'none'}}>
     <h1>All Tutorial here</h1>
     <button className='tag' ><Link  to = "/HTML">HTML</Link></button>
     <button className='tag' ><Link  to = "/Python">PYTHON</Link></button>

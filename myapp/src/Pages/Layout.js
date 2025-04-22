@@ -34,6 +34,7 @@ const Layout = () => {
                   <button className='search-bar-b' type="submit">search</button> 
                 </form>
               </div>
+              
               <div class="toggle-container">
                 <button class="btn active"> <Link  to='/sign_up'>Sign Up</Link></button>
                 <button class="btn"><Link  to="/login">Login </Link></button>
