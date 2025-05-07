@@ -14,7 +14,6 @@ const Tutorial = () => {
 
   }
 
-
   // useEffect(()=>{
   //   getProducts()
   // },[])
@@ -22,10 +21,8 @@ const Tutorial = () => {
   console.log(products)
 
   return (
-    <>
+  <>
     <h1 onClick={()=>getProducts()}>Products</h1>
-
-
 
     {products?.results?.map((e,index)=>{
       return <>
@@ -33,11 +30,12 @@ const Tutorial = () => {
           <h2>{e.title}</h2>
           <h3>{e.price}</h3>
         </div>
-      </>
+  </>
     })}
 
 
-    <div className='tag-container' style={{display:'none'}}>
+    {/* <div className='tag-container' style={{display:'none'}}> */}
+    <div className='tag-container'>
     <h1>All Tutorial here</h1>
     <button className='tag' ><Link  to = "/HTML">HTML</Link></button>
     <button className='tag' ><Link  to = "/Python">PYTHON</Link></button>

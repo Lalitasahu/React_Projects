@@ -1,5 +1,7 @@
 import React from "react"
- import {useState, useEffect } from "react"
+import {useState, useEffect } from "react"
+import { Link } from "react-router-dom";
+
 
 const Home=()=>{
     const [Products, setProducts] = useState({})
@@ -21,11 +23,15 @@ const Home=()=>{
         <h1 >Products </h1>
         {Products?.results?.map((e,index)=>{
             return <>
-            <h4>{e.name}</h4>
-            <img
-             src={e.image}
-             alt={e.name}
-            style={{width:'200', height:'200px'}} />
+                <div>
+                    <Link to={`/Prolist/${e.id}`}>
+                        <h4>{e.name}</h4>
+                        <img
+                        src={e.image}
+                        alt={e.name}
+                        style={{width:'200', height:'200px'}} />
+                    </Link>
+                </div>
             </>
         })}
        

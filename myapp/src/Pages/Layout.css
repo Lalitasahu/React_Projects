@@ -180,3 +180,14 @@ li:hover{
 nav a:hover{
   color: white;
 }
+
+
+.review-card {
+  width: 500px;
+  align-content: center;
+  border:1px solid #ccc;
+  border-radius:8px;
+  padding:15px;
+  margin-bottom: 20px;
+  background-color: #fff;
+}

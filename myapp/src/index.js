@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
-import Home from "./pages/Tutorials";
+import Home from "./pages/Home";
 import Tutorials from "./pages/Tutorials";
 import Exercises from "./pages/Exercises";
 import Certified from "./pages/Certified";
