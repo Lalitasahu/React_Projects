@@ -1,16 +1,7 @@
 
-
-// const Productlist = () => {
-//     return <>
-//       <h1>This is Product list page</h1>
-//     </>
-//   }
-  
-//   export default Productlist; 
-  
-
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Product = () => {
   const [Productlist, setProductlist] = useState([])
@@ -28,7 +19,15 @@ const Product = () => {
   return (
     <>
     {Productlist.map((e) => (
-      <h2 key={e.id}>{e.title}</h2>
+      
+      <Link to={`/Detail_pr/${e.id}`} >
+        <h2 key={e.id}>{e.title}</h2>
+      </Link>
+      // <img
+      //   src={e.image_list}
+      //   alt={e.title}
+      //   style={{ width: '200px', height: 'auto' }}
+      // />
       
     )
   
