@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {Link, useNavigate } from "react-router-dom"
 
 function userlogin() {
     const[username, setusername] = useState("")
     const[password, setpassword] = useState("")
+    const navigate = useNavigate()
 
     const submit = async(e) =>{
         e.preventDefault();
@@ -25,7 +27,7 @@ function userlogin() {
             const { access } = result;
       
             localStorage.setItem('access_token', access);
-            alert("Login successful")
+            navigate('/');
       
         } else {
             const errorData = await response.json();

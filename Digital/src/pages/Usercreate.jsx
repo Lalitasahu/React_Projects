@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-
+import { useNavigate } from "react-router-dom"
 
 function CreatUser() {
-
+    const navigate = useNavigate();
     const[username,setusername] = useState("");
     const[first_name,setfirstname] = useState("");
     const[last_name, setlastname] = useState("");
@@ -17,20 +17,6 @@ function CreatUser() {
 
     const submit = async(e)=>{
         e.preventDefault();
-
-
-        // const Userdata = {
-        //     username: username,
-        //     firstname: firstname, 
-        //     lastname: lastname,
-        //     email: email,
-        //     address: address,
-        //     password: password,
-        //     phone_no: phone_no,
-        //     is_vendor: is_vendor == "yes",  
-        // }; 
-
-        // const [profile_pic, setprofile_pic] = useState("");
 
         const Userdata = {
             username,
@@ -53,10 +39,14 @@ function CreatUser() {
             body: JSON.stringify(Userdata),
         
         });
-
+        if (response.ok) {
+            alert("User created successfully");
+            navigate('/Login');
+        } else {
+            alert("Failed to create user");
+        }
         }
 
-   
     return (
         <>
             <h1>Create New User</h1>
