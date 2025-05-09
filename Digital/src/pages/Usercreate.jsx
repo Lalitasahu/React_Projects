@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom";
+
 
 function CreatUser() {
+    const { id } = useParams(); 
     const navigate = useNavigate();
     const[username,setusername] = useState("");
     const[first_name,setfirstname] = useState("");
@@ -10,9 +12,29 @@ function CreatUser() {
     const[address, setaddress] = useState("");
     const[password, setpassword] = useState("");
     const[phone_no, setphone_no] = useState("");
-    const[is_vendor, setis_vendor] = useState("");
+    const [is_vendor, setis_vendor] = useState(false);
     const[profile_pic, setprofile_pic] = useState("")
     
+    useEffect(()=>{
+        if (id){
+            fetch(`http://localhost:8000/api/User/${id}/` ,{
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('access_token')}`
+                },
+            })
+            .then((res) => res.json())
+            .then((data)=>{
+                setusername(data.username);
+                setfirstname(data.first_name);
+                setlastname(data.last_name);
+                setemail(data.email);
+                setaddress(data.address);
+                setphone_no(data.phone_no);
+                setis_vendor(data.is_vendor);
+                setprofile_pic(data.profile_pic);
+            })
+        }
+    }, [id]); 
 
 
     const submit = async(e)=>{
@@ -24,15 +46,20 @@ function CreatUser() {
             last_name,
             email,
             address,
-            password,
+            password: password || undefined,
             phone_no,
-            is_vendor: is_vendor === "yes",
+            is_vendor: is_vendor === true || is_vendor === "yes",
             profile_pic, 
         };
         console.log(Userdata);
         
-        const response = await fetch("http://localhost:8000/api/User/", {
-            method: "POST",
+        const url = id
+            ?`http://localhost:8000/api/User/${id}/`
+            :`http://localhost:8000/api/User/`;
+        const method = id ? "PUT" : "POST";
+        
+        const response = await fetch(url, {
+            method,
             headers: {
                 "Content-Type": "application/json",
             },
@@ -40,16 +67,16 @@ function CreatUser() {
         
         });
         if (response.ok) {
-            alert("User created successfully");
-            navigate('/Login');
+            alert(`User ${id ? "updated" : "created"} successfully`);
+            navigate("/Login");
         } else {
-            alert("Failed to create user");
+            alert("Failed to save user");
         }
         }
 
     return (
         <>
-            <h1>Create New User</h1>
+            <h1>{id ? "Edit" : "Create"} User</h1>
             <form onSubmit={submit}>
                 
                 <label>User Name: </label>
@@ -98,13 +125,19 @@ function CreatUser() {
 
                 <label>Is Vendor</label>
                 <input type="checkbox"
-                    value={is_vendor}
-                    onChange={(e)=> setis_vendor(e.target.value)}
+                    checked={is_vendor}
+                    onChange={(e)=> setis_vendor(e.target.checked)}
                 /> <br /><br />
 
-                <button type="submit">
-                    Submit
-                </button>
+                <label>Upload Image:</label>
+                <input
+                  type="file"
+                  accept="profile_pic/*"
+                  onChange={(e) => setprofile_pic(e.target.files[0])}
+                /><br /> <br />                
+
+                {/* <button type="submit"> Submit </button> */}
+                <button type="submit">{id ? "Update" : "Submit"}</button>
             </form>
 
         </>

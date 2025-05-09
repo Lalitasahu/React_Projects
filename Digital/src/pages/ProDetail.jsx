@@ -1,11 +1,12 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Pro_detail = () => {
     
-    const[Detail, setDetail] = useState(null);
     const { id } = useParams();
-
+    const[Detail, setDetail] = useState(null);
+    const navigate = useNavigate();
+    
     const getDetail = async () => {
         const response = await fetch(`http://localhost:8000/api/Product/${id}/`);
         const data = await response.json();
@@ -15,6 +16,7 @@ const Pro_detail = () => {
 
     useEffect(() => {
         getDetail();
+        
     }, [id]);
 
     // console.log(
@@ -39,6 +41,7 @@ const Pro_detail = () => {
                     />  
                 })
             }
+            
         </div>
     );
 };
