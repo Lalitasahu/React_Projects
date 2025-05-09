@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 
 
-function MyForm() {
+function CreatUser() {
 
     const[username,setusername] = useState("");
     const[first_name,setfirstname] = useState("");
@@ -122,4 +122,4 @@ function MyForm() {
 }
 
 
-export default MyForm ;
+export default CreatUser ;

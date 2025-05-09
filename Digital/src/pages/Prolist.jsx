@@ -20,7 +20,7 @@ const Product = () => {
     <>
     {Productlist.map((e) => (
       
-      <Link to={`/Detail_pr/${e.id}`} >
+      <Link key={e.id} to={`/Detail_pr/${e.id}`} >
         <h2 key={e.id}>{e.title}</h2>
       </Link>
       // <img
@@ -37,27 +37,3 @@ const Product = () => {
 };
 
 export default Product;
-
-
-//   useEffect(() => { 
-//     fetch(`http://localhost:8000/api/Category/${id}/`)
-//       .then(res => res.json())
-//       .then(data => setProduct(data));
-//   }, [id]);
-
-  //   useEffect(() => {
-  //       fetch(`http://localhost:8000/api/products/?category_id=${id}`)
-  //       .then((res) => res.json())
-  //       .then((data) => setProduct(data.results || []));
-  //   }, [id]);
-
-  // if (!product) return <p>Loading...</p>;
-
-  // return (
-  //   <div>
-  //     <h2>{product.name}</h2>
-  //     <img src={product.image} alt={product.name} />
-  //     {/* Add more fields as needed */}
-  //   </div>
-  // );
-

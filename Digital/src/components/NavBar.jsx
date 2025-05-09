@@ -1,16 +1,40 @@
+// components/Navbar.js
 import { Link } from "react-router-dom";
 
-const NavBar = () => {
+const Navbar = () => {
   return (
-    <nav className="bg-blue-600 text-white p-4 flex justify-between items-center">
-      <h1 className="text-xl font-bold">🐾 Vet Clinic</h1>
-      <div className="space-x-4">
-        <Link to="/" >Home</Link>
-        <Link to="/appointments" >Appointments</Link>
-        <Link to="/add-pet" >Add Pet</Link>
+    <nav style={styles.nav}>
+      <h2 style={styles.logo}>DIGITAL</h2>
+      <div style={styles.links}>
+        <Link style={styles.link} to="/">Home</Link>
+        <Link style={styles.link} to="/Usercreate">create user</Link>
+        <Link style={styles.link} to="/Login">Login</Link>
       </div>
     </nav>
   );
 };
 
-export default NavBar;
+const styles = {
+  nav: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '10px 20px',
+    backgroundColor: '#333',
+    color: 'white',
+  },
+  logo: {
+    margin: 0,
+  },
+  links: {
+    display: 'flex',
+    gap: '15px',
+  },
+  link: {
+    color: 'white',
+    textDecoration: 'none',
+    fontSize: '16px',
+  }
+};
+
+export default Navbar;
