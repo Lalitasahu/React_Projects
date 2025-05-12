@@ -4,8 +4,9 @@ import { useParams, useNavigate } from "react-router-dom";
 function AddProducts() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [title, settitle] = useState("");
   const [user, setUser] = useState(null);
+  const [title, settitle] = useState("");
+  const [cat, setcat] = useState(null);
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -91,10 +92,17 @@ function AddProducts() {
           type="text"
           value={title}
           onChange={(e) => settitle(e.target.value)}
-        />
-        <br />
-        <br />
+        /><br /><br />
+
+        {/* <label>Category_id:</label>
+        <input
+          type="text"
+          value={cat}
+          onChange={(e) => setcat(e.target.value)}
+        /><br /><br /> */}
+
         <button type="submit">{id ? "Update" : "Submit"}</button>
+
         {id && (
           <button
             type="button"

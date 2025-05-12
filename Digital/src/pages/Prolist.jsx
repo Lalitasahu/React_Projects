@@ -29,9 +29,7 @@ const Product = () => {
             <h2>{e.title}</h2>
           </Link>
           
-          {/* <button onClick={() => navigate(`/ProDetail/edit/${e.id}`)}>
-            Edit Product
-          </button> */}
+          <button><Link to={`/Order_Product/${e.id}`}>Order item  </Link> </button>
         </div>
       ))}
     </>

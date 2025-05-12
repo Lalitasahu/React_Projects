@@ -26,6 +26,7 @@ const Navbar = () => {
       <h2 style={styles.logo}>DIGITAL</h2>
       <div style={styles.links}>
         <Link style={styles.link} to="/">Home</Link>
+        {/* <Link  to="//">Product Order History</Link> */}
         {/* <Link style={styles.link} to="/Usercreate">create user</Link> */}
         {/* <button><Link to = "/Usercreate/edit:id/" > Edit user infomation</Link></button> */}
         {/* <button><Link to = "/AddCat/add" >Add New Category</Link></button> */}

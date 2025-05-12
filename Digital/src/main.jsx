@@ -9,13 +9,11 @@ import Login from "./pages/Login";
 import AddCat from "./pages/AddCat";
 import Profile from "./pages/Profile";
 import AddProduct from "./pages/AddProduct";
-
-
+import Order_Product from "./pages/Order_Product";
 
 
 export default function App() {
   return (
-     
     <BrowserRouter>
       <Navbar />
       <Routes>
@@ -26,11 +24,12 @@ export default function App() {
         <Route path="/Usercreate" element={<Usercreate />} />
         <Route path="/Usercreate/edit:id/" element={<Usercreate />} />
         <Route path="/Prolist/:id" element={<Prolist />} />
-        <Route path="/Prolist/edit/:id" element={<Prolist />} />
         <Route path="/ProDetail/:id" element={<ProDetail />} />
         <Route path="/AddCat/add" element={<AddCat />} />
         <Route path="/AddCat/edit/:id" element={<AddCat />} />
-        <Route path="/AddProduct" element={<AddProduct />} />
+        <Route path="/AddProduct/" element={<AddProduct />} />
+        <Route path="/AddProduct/Edit/:id/" element={<AddProduct />} />
+        <Route path="/Order_Product/:id" element={<Order_Product />} />
       </Routes>
     </BrowserRouter>
 
