@@ -22,19 +22,18 @@ const Home=()=>{
     return (
     <>
         {/* <h1 onClick={()=> getProdcuts()}>Products </h1> */}
-        <h1 >Products </h1>
-        <div className="container">
+        <h1 className="products-heading" > All Category </h1>
+        <div className="products-container">
         {Products?.results?.map((e,index)=>{
             return <>
-            <div >
-                <div>
+            <div className="product-card" key={index}>
+                <div className="product-info">
                     <Link to={`/Prolist/${e.id}`}>
                         <h4>{e.name}</h4>
-                        <img src={e.image} alt={e.name}
-                        style={{width:'200', height:'200px'}} />
+                        <img src={e.image} alt={e.name} className="product-image" />
                     </Link>
                 </div>
-                <div>
+                <div className="product-actions" >
                     <button><Link to={`/AddCat/edit/${e.id}`}>Edit </Link> </button>
                 </div>
             </div>

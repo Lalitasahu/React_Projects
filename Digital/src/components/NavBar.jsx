@@ -1,6 +1,7 @@
-// components/Navbar.js
 import { Link} from "react-router-dom";
 import { useState, useEffect } from "react";
+import "./Navbar.css";
+
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
@@ -16,16 +17,12 @@ const Navbar = () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user');
   };
-
-  // console.log(JSON.parse(localStorage.getItem("user")));
-  console.log(user);
-  
   
   return (
-    <nav style={styles.nav}>
-      <h2 style={styles.logo}>DIGITAL</h2>
-      <div style={styles.links}>
-        <Link style={styles.link} to="/">Home</Link>
+    <nav className="navbar">
+      <h2 className="logo" >DIGITAL</h2>
+      <div className="nav-links">
+        <Link className="nav-link" to="/">Home</Link>
         {/* <Link  to="//">Product Order History</Link> */}
         {/* <Link style={styles.link} to="/Usercreate">create user</Link> */}
         {/* <button><Link to = "/Usercreate/edit:id/" > Edit user infomation</Link></button> */}
@@ -39,61 +36,27 @@ const Navbar = () => {
         } */}
         {localStorage.getItem('access_token') ? (
           <>
-          <button>
-            {user?.username}
-          </button>
-          <button>
-            <Link onClick={() => logout()} >
-              Logout
-            </Link>
-          </button>
+          <button className="nav-button username"> {user?.username} </button>
+          <button className="nav-button" > <Link className="nav-link"  onClick={() => logout()} > Logout </Link> </button>
           </>
         ) : (
-          <button>
-            <Link to="/Login">
-              Login
-            </Link>
-          </button>
+          <button className="nav-button" > <Link className="nav-link"  to="/Login"> Login </Link> </button>
         )}
 
         {user?.is_vendor && (
         <>
-          <Link to="/AddProduct"><button>Add Product</button></Link>
-          <Link to="/Usercreate"><button>Usercreate</button></Link>
-          <Link to="/AddCat/add"><button>Add Category</button></Link>
+          <Link  to="/AddProduct"><button className="nav-button" >Add Product</button></Link>
+          <Link  to="/Usercreate"><button className="nav-button" >Usercreate</button></Link>
+          <Link  to="/AddCat/add"><button className="nav-button" >Add Category</button></Link>
         </>
         )}
 
-        <button><Link to = "/Profile" >User Profile </Link></button>
+        <button className="nav-button" ><Link to = "/Profile" >User Profile </Link></button>
         
         
       </div>
     </nav>
   );
-};
-
-const styles = {
-  nav: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '10px 20px',
-    backgroundColor: '#333',
-    color: 'white',
-  },
-  logo: {
-    margin: 0,
-  },
-  links: {
-    display: 'flex',
-    gap: '15px',
-  },
-  link: {
-    
-    color: 'white',
-    textDecoration: 'none',
-    fontSize: '16px',
-  }
 };
 
 export default Navbar;

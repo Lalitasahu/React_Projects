@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom";
-
+import "./form.css"
 
 function CreatUser() {
     const { id } = useParams(); 
@@ -75,73 +75,60 @@ function CreatUser() {
         }
 
     return (
-        <>
-            <h1>{id ? "Edit" : "Create"} User</h1>
-            <form onSubmit={submit}>
-                
-                <label>User Name: </label>
-                <input type="text"
-                 value={username}
-                 onChange={(e)=> setusername(e.target.value)}
-                 >
-                </input><br /><br />
-                
-                <label >First Name: </label>
-                <input type="text"
-                    value={first_name}
-                    onChange={(e)=> setfirstname(e.target.value)}
-                 /><br /><br />
-
-                <label>Last Name: </label>
-                <input type="text"
-                value={last_name}
-                onChange={(e)=> setlastname(e.target.value)}
-                >
-                </input><br /><br />
-
-                <label>Email: </label>
-                <input type="text"
-                 value={email}
-                 onChange={(e)=> setemail(e.target.value)}
-                /> <br /><br />
-
-                <label>Address: </label>
-                <input type="text"
-                    value={address}
-                    onChange={(e) => setaddress(e.target.value)}
-                /><br /> <br />
-
-                <label>password: </label>
-                <input type="password" 
-                    value={password}
-                    onChange={(e) => setpassword(e.target.value)}
-                /><br /> <br />
-
-                <label>Phone Number: </label>
-                <input type="tel" 
-                    value={phone_no}
-                    onChange={(e)=> setphone_no(e.target.value)}
-                /> <br /><br />
-
-                <label>Is Vendor</label>
-                <input type="checkbox"
-                    checked={is_vendor}
-                    onChange={(e)=> setis_vendor(e.target.checked)}
-                /> <br /><br />
-
-                <label>Upload Image:</label>
-                <input
-                  type="file"
-                  accept="profile_pic/*"
-                  onChange={(e) => setprofile_pic(e.target.files[0])}
-                /><br /> <br />                
-
-                {/* <button type="submit"> Submit </button> */}
-                <button type="submit">{id ? "Update" : "Submit"}</button>
-            </form>
-
-        </>
-    )
+        <div className="form-container">
+          <h1>{id ? "Edit" : "Create"} User</h1>
+          <form onSubmit={submit}>
+            <div className="form-group">
+              <label>User Name:</label>
+              <input type="text" value={username} onChange={(e) => setusername(e.target.value)} />
+            </div>
+      
+            <div className="form-group">
+              <label>First Name:</label>
+              <input type="text" value={first_name} onChange={(e) => setfirstname(e.target.value)} />
+            </div>
+      
+            <div className="form-group">
+              <label>Last Name:</label>
+              <input type="text" value={last_name} onChange={(e) => setlastname(e.target.value)} />
+            </div>
+      
+            <div className="form-group">
+              <label>Email:</label>
+              <input type="text" value={email} onChange={(e) => setemail(e.target.value)} />
+            </div>
+      
+            <div className="form-group">
+              <label>Address:</label>
+              <input type="text" value={address} onChange={(e) => setaddress(e.target.value)} />
+            </div>
+      
+            <div className="form-group">
+              <label>Password:</label>
+              <input type="password" value={password} onChange={(e) => setpassword(e.target.value)} />
+            </div>
+      
+            <div className="form-group">
+              <label>Phone Number:</label>
+              <input type="tel" value={phone_no} onChange={(e) => setphone_no(e.target.value)} />
+            </div>
+      
+            <div className="form-group">
+              <label>Is Vendor</label>
+              <input type="checkbox" checked={is_vendor} onChange={(e) => setis_vendor(e.target.checked)} />
+            </div>
+      
+            <div className="form-group">
+              <label>Upload Image:</label>
+              <input type="file" accept="image/*" onChange={(e) => setprofile_pic(e.target.files[0])} />
+            </div>
+      
+            <div className="form-group">
+              <button type="submit">{id ? "Update" : "Submit"}</button>
+            </div>
+          </form>
+        </div>
+    );
 }
 
 

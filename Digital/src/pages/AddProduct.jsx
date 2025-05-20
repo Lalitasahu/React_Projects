@@ -1,5 +1,8 @@
+
+
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import "./form.css";
 
 function AddProducts() {
   const { id } = useParams();
@@ -84,36 +87,40 @@ function AddProducts() {
   };
 
   return (
-    <>
+    <div className="form-container">
       <h1>{id ? "Edit" : "Add"} Product</h1>
       <form onSubmit={submit}>
-        <label>Title:</label>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => settitle(e.target.value)}
-        /><br /><br />
+        <div className="form-group">
+          <label>Title:</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => settitle(e.target.value)}
+          />
+        </div>
 
-        {/* <label>Category_id:</label>
-        <input
-          type="text"
-          value={cat}
-          onChange={(e) => setcat(e.target.value)}
-        /><br /><br /> */}
+        {/* <div className="form-group">
+          <label>Category ID:</label>
+          <input
+            type="text"
+            value={cat}
+            onChange={(e) => setcat(e.target.value)}
+          />
+        </div> */}
 
-        <button type="submit">{id ? "Update" : "Submit"}</button>
-
-        {id && (
-          <button
-            type="button"
-            onClick={Delete}
-            style={{ marginLeft: "10px", backgroundColor: "red", color: "white" }}
-          >
-            Delete
+        <div className="form-group">
+          <button type="submit" className="submit-btn">
+            {id ? "Update" : "Submit"}
           </button>
-        )}
+
+          {id && (
+            <button type="button" onClick={Delete} className="delete-btn">
+              Delete
+            </button>
+          )}
+        </div>
       </form>
-    </>
+    </div>
   );
 }
 

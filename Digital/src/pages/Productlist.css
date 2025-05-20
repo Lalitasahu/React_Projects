@@ -1,0 +1,77 @@
+/* ProductList.css */
+
+.product-page {
+    padding: 20px 40px;
+    background-color: #f1f5f9;
+    min-height: 100vh;
+  }
+  
+  .product-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  
+  .product-header h1 {
+    font-size: 28px;
+    color: #0f172a;
+    margin: 0;
+  }
+  
+  .product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+  }
+  
+  .product-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    width: 240px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+  }
+  
+  .product-link {
+    text-decoration: none;
+    color: #1e293b;
+    display: block;
+    margin-bottom: 12px;
+  }
+  
+  .product-link h2 {
+    font-size: 18px;
+    margin: 0;
+  }
+  
+  .order-button {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .order-button:hover {
+    background-color: #1d4ed8;
+  }
+  
+  .no-products {
+    font-size: 16px;
+    color: #64748b;
+    text-align: center;
+    width: 100%;
+    margin-top: 40px;
+  }
+  

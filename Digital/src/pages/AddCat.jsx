@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import "./form.css"
 
 function AddCategory() {
   const navigate = useNavigate();
@@ -74,36 +75,46 @@ function AddCategory() {
   };
 
   return (
-    <>
+    <div className="form-container">
       <h1>{id ? "Edit" : "Add"} Category</h1>
       <form onSubmit={submit}>
-        <label>Category Name:</label>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        /><br /><br />
-
-        <label>Upload Image:</label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setImage(e.target.files[0])}
-        />
-        <br />
-        <br />
-
-        {/* <button type="submit">Submit</button> */}
-        <button type="submit" style={{ marginLeft: '10px', backgroundColor: 'green', color: 'white' }}>{id ? "Update" : "Submit"}</button>
-        
-        {id && (
-        <button type="button" onClick={Delete} style={{ marginLeft: '10px', backgroundColor: 'red', color: 'white' }}>
-            Delete
-        </button>
-        )}
+        <div className="form-group">
+          <label>Category Name:</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+  
+        <div className="form-group">
+          <label>Upload Image:</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])}
+          />
+        </div>
+  
+        <div className="form-group">
+          <button type="submit" className="submit-btn">
+            {id ? "Update" : "Submit"}
+          </button>
+  
+          {id && (
+            <button
+              type="button"
+              onClick={Delete}
+              className="delete-btn"
+            >
+              Delete
+            </button>
+          )}
+        </div>
       </form>
-    </>
-    );
+    </div>
+  );
+  
 }
 
 export default AddCategory;
