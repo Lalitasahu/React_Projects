@@ -6,6 +6,7 @@ import "./App.css";
 
 const Home=()=>{
     const [Products, setProducts] = useState({})
+    const [user, setUser] = useState(null);
     const { id } = useParams();
 
     const getProdcuts = async() =>{
@@ -15,9 +16,18 @@ const Home=()=>{
     }
     console.log(Products);
 
-    useEffect(()=>{
+    // useEffect(()=>{
+    //     getProdcuts()
+    // },[])
+
+    useEffect(() => {
+        const userData = localStorage.getItem("user");
+        if (userData) {
+          setUser(JSON.parse(userData));
         getProdcuts()
-    },[])
+        }
+      }, []);
+    
 
     return (
     <>
@@ -33,9 +43,13 @@ const Home=()=>{
                         <img src={e.image} alt={e.name} className="product-image" />
                     </Link>
                 </div>
-                <div className="product-actions" >
-                    <button><Link to={`/AddCat/edit/${e.id}`}>Edit </Link> </button>
-                </div>
+                {user?.is_vendor && (
+                    <>
+                    <div className="product-actions" >
+                        <button><Link to={`/AddCat/edit/${e.id}`}>Edit </Link> </button>
+                    </div>
+                    </>
+                )}
             </div>
             </>
         })}

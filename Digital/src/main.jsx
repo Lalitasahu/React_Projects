@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import AddProduct from "./pages/AddProduct";
 import Order_Product from "./pages/Order_Product";
 import AddToCart from "./pages/AddToCart";
+import OrderAllItem from "./pages/OrderAllItem";
 
 
 export default function App() {
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="/AddProduct/Edit/:id/" element={<AddProduct />} />
         <Route path="/Order_Product/:id" element={<Order_Product />} />
         <Route path="/AddToCart" element={<AddToCart />} />
+        <Route path="/OrderAllItem" element={<OrderAllItem />} />
       </Routes>
     </BrowserRouter>
 

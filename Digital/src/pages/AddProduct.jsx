@@ -1,5 +1,3 @@
-
-
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./form.css";
@@ -60,7 +58,9 @@ function AddProducts() {
     });
 
     if (response.ok) {
-      alert(id ? "Updated Product Successfully" : "Created Product Successfully");
+      alert(
+        id ? "Updated Product Successfully" : "Created Product Successfully"
+      );
       navigate("/");
     } else {
       alert("Failed to save Product");
@@ -68,7 +68,9 @@ function AddProducts() {
   };
 
   const Delete = async () => {
-    const confirm = window.confirm("Are you sure you want to delete this Product?");
+    const confirm = window.confirm(
+      "Are you sure you want to delete this Product?"
+    );
     if (!confirm) return;
 
     const response = await fetch(`http://localhost:8000/api/Product/${id}/`, {

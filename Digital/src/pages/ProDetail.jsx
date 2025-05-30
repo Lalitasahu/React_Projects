@@ -1,6 +1,8 @@
 
+
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import "./Productlist.css";
 
 const Pro_detail = () => {
     const { id } = useParams();
@@ -9,6 +11,7 @@ const Pro_detail = () => {
     const [comment, setComment] = useState("");
     const [rating, setRating] = useState(1);
     const [reviews, setReviews] = useState([]);
+    const [quantity, setQuantity] = useState(1); 
 
     const getDetail = async () => {
         const response = await fetch(`http://localhost:8000/api/Product/${id}/`, {
@@ -37,7 +40,7 @@ const Pro_detail = () => {
             },
             body: JSON.stringify({
                 product: id,
-                quantity: 1,
+                quantity:quantity > 0 ? quantity: 1,
             }),
         });
 
@@ -50,20 +53,11 @@ const Pro_detail = () => {
     };
 
     const getReviews = async () => {
-        const response = await fetch("http://localhost:8000/api/Reviews/", {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-        });
+        const response = await fetch(`http://localhost:8000/api/reviews_by_product_id/${id}`);
         const data = await response.json();
-
-        const reviewsList = Array.isArray(data) ? data : data.results;
-    
-        const productReviews = reviewsList.filter((review) => review.product === parseInt(id));
-        setReviews(productReviews);
+        setReviews(data);
     };
-    
+
     const handleReviewSubmit = async (e) => {
         e.preventDefault();
         const response = await fetch("http://localhost:8000/api/Reviews/", {
@@ -98,63 +92,92 @@ const Pro_detail = () => {
     if (!Detail) return <p>Loading...</p>;
 
     return (
-        <div>
+        <div className="container">
             <h1>{Detail.title}</h1>
-            <p>Price: {Detail.price}</p>
-            <p>Category Name: {Detail.category_name}</p>
-            <p>Stock: {Detail.stock}</p>
-            <p>Is Available: {Detail.is_available ? "Yes" : "No"}</p>
-            <p>Model Name: {Detail.model_name}</p>
-            <p>Description: {Detail.description}</p>
-            <p>Battery Backup: {Detail.battery_backup}</p>
-            <p>Screen Size: {Detail.screen_size}</p>
-            <p>Warranty: {Detail.warranty_summary}</p>
-            <p>Keyboard: {Detail.keyboard}</p>
-            <p>RAM: {Detail.ram}</p>
-            <p>Part Number: {Detail.part_number}</p>
-            <p>Power Supply: {Detail.power_supply}</p>
-            <p>OS: {Detail.operating_system}</p>
-            <p>SSD: {Detail.ssd_capacity}</p>
-            <p>Weight: {Detail.weight}</p>
-
-            {
-                Detail.image_list &&
-                Detail.image_list
-                    .replace('[', '')
-                    .replace(']', '')
-                    .replace(/'/g, '')
-                    .split(',')
-                    .map((e, index) => (
-                        <img
-                            key={index}
-                            src={e.trim()}
-                            style={{ width: "150px", height: "auto", borderRadius: "8px" }}
-                            alt="Product"
-                        />
-                    ))
-            }
-
-            {/* <hr /> */}
-            <div>
-                <button><Link to={`/AddProduct/edit/${id}`}>Edit</Link></button>
-                {
-                    Detail.is_in_cart ? (
-                        <button className="submit-btn" disabled>Already in cart</button>
-                    ) : (
-                        <button type="button" onClick={handleAddToCart} className="submit-btn">Add to Cart</button>
-                    )
-                }
-                <button><Link to={`/Order_Product/${id}`}>Order</Link></button>
+            <div className="product-details">
+                <p>Price: {Detail.price}</p>
+                <p>Category Name: {Detail.category_name}</p>
+                <p>Stock: {Detail.stock}</p>
+                <p>Is Available: {Detail.is_available ? "Yes" : "No"}</p>
+                <p>Model Name: {Detail.model_name}</p>
+                <p>Description: {Detail.description}</p>
+                <p>Battery Backup: {Detail.battery_backup}</p>
+                <p>Screen Size: {Detail.screen_size}</p>
+                <p>Warranty: {Detail.warranty_summary}</p>
+                <p>Keyboard: {Detail.keyboard}</p>
+                <p>RAM: {Detail.ram}</p>
+                <p>Part Number: {Detail.part_number}</p>
+                <p>Power Supply: {Detail.power_supply}</p>
+                <p>OS: {Detail.operating_system}</p>
+                <p>SSD: {Detail.ssd_capacity}</p>
+                <p>Weight: {Detail.weight}</p>
             </div>
 
-            {/* <hr /> */}
+            <div className="product-images">
+                {Detail.image_list &&
+                    Detail.image_list
+                        .replace('[', '')
+                        .replace(']', '')
+                        .replace(/'/g, '')
+                        .split(',')
+                        .map((e, index) => (
+                            <img
+                                key={index}
+                                src={e.trim()}
+                                alt="Product"
+                            />
+                        ))}
+            </div>
+
+
+            <div className="button-group">
+                
+                <button
+                    type="button"
+                    onClick={() => {
+                        if (quantity > 1) {
+                            setQuantity(quantity - 1);
+                        }
+                    }}
+                >
+                    -
+                </button>
+
+                <span style={{ margin: '0 10px' }}>{quantity}</span>
+
+                <button
+                    type="button"
+                    onClick={() => setQuantity(quantity + 1)}
+                >
+                    +
+                </button>
+
+                <Link to={`/AddProduct/edit/${id}`}>
+                    <button type="button">Edit</button>
+                </Link>
+
+                {
+                    Detail.is_in_cart ? (
+                        <button type="button" disabled>Already in cart</button>
+                    ) : (
+                        <button type="button" onClick={handleAddToCart}>Add to Cart</button>
+                    )
+                }
+
+                <Link to={`/Order_Product/${id}`}>
+                    <button type="button">Order</button>
+                </Link>
+            </div>
+
+
+
             <h2>Customer Reviews</h2>
             <button onClick={() => setShowReviewForm(!showReviewForm)}>
                 {showReviewForm ? "Cancel Review" : "Review"}
             </button>
 
             {showReviewForm && (
-                <form onSubmit={handleReviewSubmit}>
+                <form onSubmit={handleReviewSubmit} className="review-form">
                     <textarea
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
@@ -175,7 +198,7 @@ const Pro_detail = () => {
 
             {reviews.length > 0 ? (
                 reviews.map((review) => (
-                    <div key={review.id} >
+                    <div key={review.id} className="review-item">
                         <p><strong>{review.user_name}</strong> rated {review.rating}/5</p>
                         <p>{review.comment}</p>
                     </div>
@@ -183,13 +206,6 @@ const Pro_detail = () => {
             ) : (
                 <p>No reviews yet.</p>
             )}
-            {/* {reviews.map((e) => (
-                <div key={e.id}>
-                    <p><strong>{e.user_name}</strong> rated {e.rating}/5</p>
-                    <p>{e.comment}</p>
-                </div>
-            ))} */}
-
         </div>
     );
 };
