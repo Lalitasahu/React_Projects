@@ -1,11 +1,11 @@
-
-
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate} from "react-router-dom";
 
 function Cart() {
     const [cartItems, setCartItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
+    const { id } = useParams();
+    const navigate = useNavigate();
 
     const getCartItems = async () => {
         const token = localStorage.getItem("access_token");
@@ -45,7 +45,6 @@ function Cart() {
                 throw new Error("Failed to update cart item");
             }
     
-            // Refresh cart items after update
             getCartItems();
         } catch (error) {
             console.error("Error updating cart item:", error);
@@ -55,16 +54,35 @@ function Cart() {
     useEffect(() => {
         getCartItems();
     }, []);
+
+    const deleteCart = async (id) => {
+        const confirmDelete = window.confirm(
+          "Are you sure you want to delete this Cart?"
+        );
+        console.log("Delete Cart ID:", id);
+        if (!confirmDelete) return;
+      
+        try {
+          const response = await fetch(`http://localhost:8000/api/Cart/${id}/`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          });
+      
+          if (response.ok) {
+            alert("Cart deleted successfully");
+            navigate("/");
+          } else {
+            alert("Failed to delete Cart");
+          }
+        } catch (error) {
+          alert("An error occurred while deleting the cart.");
+          console.error("Delete error:", error);
+        }
+      };
+      
     
-    useEffect(() => {
-        const total = cartItems.reduce((acc, item) => {
-            const rawPrice = item.product.price; // e.g., "₹74,999"
-            const numericPrice = Number(rawPrice.replace(/[^\d.]/g, '')); // Removes ₹ and commas
-            const quantity = Number(item.quantity);
-            return acc + (numericPrice * quantity);
-        }, 0);
-        setTotalPrice(total);
-    }, [cartItems]);
     return (
         <>
             <h2>Cart Items</h2>
@@ -76,6 +94,7 @@ function Cart() {
                             <h3>User: {item.user}</h3>
                             <h3>Product: {item.product.title}</h3>
                             <h3>Price: ${item.product.price}</h3>
+                            <h3>Date: {item.date}</h3>
                             <img
                                 src={item.product.image_list.replace('[','').replace(']','').replace(/\'/g,'').split(',')[0]}
                                 alt={item.title}
@@ -98,6 +117,7 @@ function Cart() {
                                     type="button" onClick={() => setCartItems(prev => prev.map(i => i.id === item.id? { ...i, quantity: i.quantity + 1 } : i
                                             ))}
                                 > +</button> */}
+                                
                                 <button
                                     type="button"
                                     onClick={() => {
@@ -116,12 +136,23 @@ function Cart() {
 
                             </label>
 
-                            <h3>Date: {item.date}</h3>
+                            <button><Link to={`/Order_Product/${item.product.id}/`}>Order</Link></button>
+                            
+                            
+                            <button onClick={() => {
+                                deleteCart(item.id);
+                            }}>
+                            Delete
+                            </button>
+
+                            
+
                         </div>
                     ))
                 ) : (
                     <p>No items in cart.</p>
                 )}
+                
                 <h2>Total Price: ${totalPrice}</h2>
                 
                 <button><Link to={'/OrderAllItem/'}>Buy All Items </Link></button>

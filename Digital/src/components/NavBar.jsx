@@ -1,10 +1,12 @@
-import { Link} from "react-router-dom";
+
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./Navbar.css";
 
-
 const Navbar = () => {
   const [user, setUser] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -14,47 +16,93 @@ const Navbar = () => {
   }, []);
 
   const logout = () => {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('user');
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("user");
   };
-  
+
+  const handleSearch = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/ProductSearchListAPIView/?search=${searchTerm}`
+      );
+      const data = await response.json();
+      setProducts(data.results || []); 
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
   return (
     <nav className="navbar">
-      <h2 className="logo" >DIGITAL</h2>
+      <h2 className="logo">DIGITAL</h2>
       <div className="nav-links">
         <Link className="nav-link" to="/">Home</Link>
-        <button className="nav-button"  ><Link className="nav-link" to="/AddToCart">Add to Cart</Link></button>
-        {/* <Link  to="//">Product Order History</Link> */}
-        {/* <Link style={styles.link} to="/Usercreate">create user</Link> */}
-        {/* <button><Link to = "/Usercreate/edit:id/" > Edit user infomation</Link></button> */}
-        {/* <button><Link to = "/AddCat/add" >Add New Category</Link></button> */}
-        {/* <button><Link to = "/AddProduct" >Add New Prodcut</Link></button> */}
-        
-        {/* {
-          localStorage.getItem('access_token')?
-          <button><Link  onClick={()=>logout()}>Logout</Link></button>:
-          <button><Link style={styles.link} to="/Login">Login</Link></button>
-        } */}
-        {localStorage.getItem('access_token') ? (
+
+        <button className="nav-button">
+          <Link className="nav-link" to="/AddToCart">Add to Cart</Link>
+        </button>
+
+        {localStorage.getItem("access_token") ? (
           <>
-          <button className="nav-button username"> {user?.username} </button>
-          <button className="nav-button" > <Link className="nav-link"  onClick={() => logout()} > Logout </Link> </button>
+            <button className="nav-button username">
+              {user?.username}
+            </button>
+            <button className="nav-button" onClick={logout}>
+              <Link className="nav-link" to="/">Logout</Link>
+            </button>
           </>
         ) : (
-          <button className="nav-button" > <Link className="nav-link"  to="/Login"> Login </Link> </button>
+          <button className="nav-button">
+            <Link className="nav-link" to="/Login">Login</Link>
+          </button>
         )}
 
         {user?.is_vendor && (
-        <>
-          <Link  to="/AddProduct"><button className="nav-button" >Add Product</button></Link>
-          <Link  to="/Usercreate"><button className="nav-button" >Usercreate</button></Link>
-          <Link  to="/AddCat/add"><button className="nav-button" >Add Category</button></Link>
-        </>
+          <>
+            <Link to="/AddProduct">
+              <button className="nav-button">Add Product</button>
+            </Link>
+            <Link to="/Usercreate">
+              <button className="nav-button">Usercreate</button>
+            </Link>
+            <Link to="/AddCat/add">
+              <button className="nav-button">Add Category</button>
+            </Link>
+          </>
         )}
 
-        <button className="nav-button" ><Link to = "/Profile" >User Profile </Link></button>
-        
-        
+        <button className="nav-button">
+          <Link to="/Profile">User Profile</Link>
+        </button>
+
+        <div className="product-search">
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSearch();
+            }}
+          />
+          {/* <button onClick={handleSearch}>Search</button> */}
+
+          {searchTerm && products.length > 0 && (
+            <div className="product-list">
+              {products.map((product) => (
+                <div key={product.id} className="product-card">
+                  <Link to={`/ProDetail/${product.id}`} onClick={() => setSearchTerm("")}>
+                    <h4>{product.title}</h4>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {searchTerm && products.length === 0 && (
+            <p>No products found.</p>
+          )}
+        </div>
       </div>
     </nav>
   );

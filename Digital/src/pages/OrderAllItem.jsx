@@ -6,6 +6,18 @@ const BuyAllProducts = () => {
   const [cartItems, setCartItems] = useState([]);
   const [shippingAddress, setShippingAddress] = useState("");
   const [message, setMessage] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);  
+
+
+  useEffect(() => {
+      const total = cartItems.reduce((acc, item) => {
+          const rawPrice = item.product.price; // e.g., "₹74,999"
+          const numericPrice = Number(rawPrice.replace(/[^\d.]/g, '')); // Removes ₹ and commas
+          const quantity = Number(item.quantity);
+          return acc + (numericPrice * quantity);
+      }, 0);
+      setTotalPrice(total);
+  }, [cartItems]);  
 
   // Fetch cart items from backend when component mounts
   useEffect(() => {
@@ -83,9 +95,10 @@ const BuyAllProducts = () => {
 
       {message && <p>{message}</p>}
 
-      <h4>Total: ₹
-        {cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0)}
-      </h4>
+      {/* <h4>Total: ₹ */}
+      <h2>Total Price: ${totalPrice}</h2>
+        {/* {cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0)} */}
+      {/* </h4> */}
 
     </div>
   );
