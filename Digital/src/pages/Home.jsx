@@ -1,8 +1,8 @@
 import React from "react"
 import {useState, useEffect } from "react"
 import { Link,useParams } from "react-router-dom";
+import Tranding from "../pages/Tranding";
 import "./App.css";
-
 
 const Home=()=>{
     const [Products, setProducts] = useState({})
@@ -14,7 +14,6 @@ const Home=()=>{
         const response = await fetch(url)
         setProducts(await response.json())
     }
-    console.log(Products);
 
     // useEffect(()=>{
     //     getProdcuts()
@@ -27,12 +26,12 @@ const Home=()=>{
         getProdcuts()
         }
       }, []);
-    
 
     return (
     <>
         {/* <h1 onClick={()=> getProdcuts()}>Products </h1> */}
         <h1 className="products-heading" > All Category </h1>
+        <Tranding />
         <div className="products-container">
         {Products?.results?.map((e,index)=>{
             return <>

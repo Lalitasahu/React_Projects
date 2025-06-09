@@ -50,7 +50,17 @@ function Cart() {
             console.error("Error updating cart item:", error);
         }
     };
-    
+    useEffect(() => {
+        const total = cartItems.reduce((acc, item) => {
+            const rawPrice = item.product.price; // e.g., "₹74,999"
+            const numericPrice = Number(rawPrice.replace(/[^\d.]/g, '')); // Removes ₹ and commas
+            const quantity = Number(item.quantity);
+            return acc + (numericPrice * quantity);
+        }, 0);
+        setTotalPrice(total);
+    }, [cartItems]); 
+    // console.log(rawPrice);
+
     useEffect(() => {
         getCartItems();
     }, []);
@@ -93,7 +103,8 @@ function Cart() {
                             <h3>Cart ID: {item.id}</h3>
                             <h3>User: {item.user}</h3>
                             <h3>Product: {item.product.title}</h3>
-                            <h3>Price: ${item.product.price}</h3>
+                            {/* <h3>Price: ${item.product.price}</h3> */}
+                            <h3>Price: ${Number(item.product.price.replace(/[^\d.]/g, '')) * Number(item.quantity)}</h3>
                             <h3>Date: {item.date}</h3>
                             <img
                                 src={item.product.image_list.replace('[','').replace(']','').replace(/\'/g,'').split(',')[0]}
@@ -154,6 +165,7 @@ function Cart() {
                 )}
                 
                 <h2>Total Price: ${totalPrice}</h2>
+                {/* <h2>Total Price: ${item.product.quantity*item.product.price}</h2> */}
                 
                 <button><Link to={'/OrderAllItem/'}>Buy All Items </Link></button>
             </div>

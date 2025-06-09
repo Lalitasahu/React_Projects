@@ -42,6 +42,10 @@ const Navbar = () => {
           <Link className="nav-link" to="/AddToCart">Add to Cart</Link>
         </button>
 
+        <button className="nav-button">
+          <Link className="nav-link" to="/OrderHistory">Oders</Link>
+        </button>
+
         {localStorage.getItem("access_token") ? (
           <>
             <button className="nav-button username">

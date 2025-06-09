@@ -12,6 +12,10 @@ import AddProduct from "./pages/AddProduct";
 import Order_Product from "./pages/Order_Product";
 import AddToCart from "./pages/AddToCart";
 import OrderAllItem from "./pages/OrderAllItem";
+import Tranding from './pages/Tranding';
+import OrderHistory from "./pages/OrderHistory";
+import OrderDetail from "./pages/OrderDetail";
+
 
 
 export default function App() {
@@ -34,6 +38,9 @@ export default function App() {
         <Route path="/Order_Product/:id" element={<Order_Product />} />
         <Route path="/AddToCart" element={<AddToCart />} />
         <Route path="/OrderAllItem" element={<OrderAllItem />} />
+        <Route path="/Tranding" element={<Tranding />} />
+        <Route path="/OrderHistory" element={<OrderHistory />} />
+        <Route path="/OrderDetail/:id" element={<OrderDetail />} />
       </Routes>
     </BrowserRouter>
 

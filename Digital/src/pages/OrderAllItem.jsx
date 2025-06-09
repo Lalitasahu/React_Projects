@@ -8,7 +8,6 @@ const BuyAllProducts = () => {
   const [message, setMessage] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);  
 
-
   useEffect(() => {
       const total = cartItems.reduce((acc, item) => {
           const rawPrice = item.product.price; // e.g., "₹74,999"
@@ -18,8 +17,7 @@ const BuyAllProducts = () => {
       }, 0);
       setTotalPrice(total);
   }, [cartItems]);  
-
-  // Fetch cart items from backend when component mounts
+  
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
@@ -30,18 +28,17 @@ const BuyAllProducts = () => {
         });
         const data = await response.json();
         console.log("Cart API Response:", data);
-    
-        if (Array.isArray(data.results)) {
-          setCartItems(data.results);
+
+        if (Array.isArray(data)) {
+          setCartItems(data);
         } else {
-          // console.error("Cart data is not an array:", data);
           setCartItems([]);
         }
       } catch (error) {
         console.error("Error fetching cart items:", error);
       }
     };    
-  
+
     fetchCartItems();
   }, []);
   
@@ -83,6 +80,7 @@ const BuyAllProducts = () => {
       />
 
       <ul>
+      
         {cartItems.map((item, index) => (
           <li key={index}>
             Product: {item.product.title} | Price: ₹{item.product.price} | Quantity: {item.quantity}
@@ -95,8 +93,8 @@ const BuyAllProducts = () => {
 
       {message && <p>{message}</p>}
 
-      {/* <h4>Total: ₹ */}
       <h2>Total Price: ${totalPrice}</h2>
+      {/* <h3>Price: ${Number(item.product.price.replace(/[^\d.]/g, '')) * Number(item.quantity)}</h3> */}
         {/* {cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0)} */}
       {/* </h4> */}
 
