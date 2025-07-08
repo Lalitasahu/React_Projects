@@ -1,4 +1,5 @@
 
+
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./Navbar.css";
@@ -7,6 +8,7 @@ const Navbar = () => {
   const [user, setUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -26,58 +28,62 @@ const Navbar = () => {
         `http://localhost:8000/ProductSearchListAPIView/?search=${searchTerm}`
       );
       const data = await response.json();
-      setProducts(data.results || []); 
+      setProducts(data.products || []);
+      setCategories(data.categories || []);
+      console.log("Products:", data.products);
+      console.log("Categories:", data.categories);
     } catch (error) {
-      console.error("Error fetching products:", error);
+      console.error("Error fetching search results:", error);
     }
   };
 
   return (
     <nav className="navbar">
       <h2 className="logo">DIGITAL</h2>
+
       <div className="nav-links">
         <Link className="nav-link" to="/">Home</Link>
 
-        <button className="nav-button">
-          <Link className="nav-link" to="/AddToCart">Add to Cart</Link>
-        </button>
+        <Link className="nav-link" to="/AddToCart">
+          <button className="nav-button">Add to Cart</button>
+        </Link>
 
-        <button className="nav-button">
-          <Link className="nav-link" to="/OrderHistory">Oders</Link>
-        </button>
+        <Link className="nav-link" to="/OrderHistory">
+          <button className="nav-button">Orders</button>
+        </Link>
 
         {localStorage.getItem("access_token") ? (
           <>
             <button className="nav-button username">
               {user?.username}
             </button>
-            <button className="nav-button" onClick={logout}>
-              <Link className="nav-link" to="/">Logout</Link>
-            </button>
+            <Link className="nav-link" to="/">
+              <button className="nav-button" onClick={logout}>Logout</button>
+            </Link>
           </>
         ) : (
-          <button className="nav-button">
-            <Link className="nav-link" to="/Login">Login</Link>
-          </button>
+          <Link className="nav-link" to="/Login">
+            <button className="nav-button">Login</button>
+          </Link>
         )}
 
         {user?.is_vendor && (
           <>
-            <Link to="/AddProduct">
+            <Link className="nav-link" to="/AddProduct">
               <button className="nav-button">Add Product</button>
             </Link>
-            <Link to="/Usercreate">
+            <Link className="nav-link" to="/Usercreate">
               <button className="nav-button">Usercreate</button>
             </Link>
-            <Link to="/AddCat/add">
+            <Link className="nav-link" to="/AddCat/add">
               <button className="nav-button">Add Category</button>
             </Link>
           </>
         )}
 
-        <button className="nav-button">
-          <Link to="/Profile">User Profile</Link>
-        </button>
+        <Link className="nav-link" to="/Profile">
+          <button className="nav-button">User Profile</button>
+        </Link>
 
         <div className="product-search">
           <input
@@ -89,22 +95,56 @@ const Navbar = () => {
               if (e.key === "Enter") handleSearch();
             }}
           />
-          {/* <button onClick={handleSearch}>Search</button> */}
 
-          {searchTerm && products.length > 0 && (
-            <div className="product-list">
-              {products.map((product) => (
-                <div key={product.id} className="product-card">
-                  <Link to={`/ProDetail/${product.id}`} onClick={() => setSearchTerm("")}>
-                    <h4>{product.title}</h4>
-                  </Link>
-                </div>
-              ))}
+          {(categories.length > 0 || products.length > 0) && (
+            <div className="search-results">
+              {categories.length > 0 && (
+                <>
+                  <h2>Matched Categories</h2>
+                  <ul>
+                    {categories.map((cat) => (
+                      <li key={cat.id}>
+                        <Link
+                          to={`/Prolist/${cat.id}`}
+                          onClick={() => {
+                            setSearchTerm("");
+                            setCategories([]);
+                          }}
+                        >
+                          {cat.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+
+                </>
+              )}
+
+              {products.length > 0 && (
+                <>
+                  <h2>Matched Products</h2>
+                      <ul>
+                        {products.map((prod) => (
+                          <li key={prod.id}>
+                            <Link
+                              to={`/ProDetail/${prod.id}`}
+                              onClick={() => {
+                                setSearchTerm("");
+                                setProducts([]);
+                              }}
+                            >
+                              {prod.title}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                </>
+              )}
             </div>
           )}
 
-          {searchTerm && products.length === 0 && (
-            <p>No products found.</p>
+          {searchTerm && products.length === 0 && categories.length === 0 && (
+            <p className="no-results">No products or categories found.</p>
           )}
         </div>
       </div>

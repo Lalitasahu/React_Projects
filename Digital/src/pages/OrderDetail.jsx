@@ -57,7 +57,6 @@
 
 // export default OrderHistory;
 
-
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -88,32 +87,38 @@ const OrderDetail = () => {
   const updateOrderStatus = async (status) => {
     const token = localStorage.getItem("access_token");
     const body = { status };
+
     if (status === "cancelled") {
-      if (!cancellationReason) {
+      if (!cancellationReason.trim()) {
         alert("Please provide a cancellation reason.");
         return;
       }
       body.cancellation_reason = cancellationReason;
     }
-  
-    const res = await fetch(`http://localhost:8000/api/Order/${id}/update_status/`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(body),
-    });
-  
-    const data = await res.json();
-    if (res.ok) {
-      alert(data.message);
-      fetchOrder(); // Refresh
-    } else {
-      alert(data.error);
+
+    try {
+      const res = await fetch(`http://localhost:8000/api/Order/${id}/update_status/`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert(data.message || "Order updated successfully.");
+        fetchOrder();
+      } else {
+        alert(data.error || "Something went wrong.");
+      }
+    } catch (error) {
+      alert("Server error. Please try again later.");
+      console.error(error);
     }
   };
-  
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded shadow">
@@ -126,37 +131,37 @@ const OrderDetail = () => {
           <p><strong>Quantity:</strong> {order.quantity}</p>
           <p><strong>Address:</strong> {order.shipping_address}</p>
           {order.status === "cancelled" && (
-            <p className="text-red-500"><strong>Reason:</strong>{order.cancellation_reason}</p>
+            <p className="text-red-500"><strong>Reason:</strong> {order.cancellation_reason}</p>
           )}
 
           {order.status === "pending" && (
-            <div className="mt-6 flex flex-col gap-4">
+            <div className="mt-4 space-y-2">
               <button
+                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
                 onClick={() => updateOrderStatus("confirmed")}
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
               >
                 Confirm Order
               </button>
 
               {!showReasonInput ? (
                 <button
+                  className="bg-red-500 text-white px-4 py-2 ml-4 rounded hover:bg-red-600"
                   onClick={() => setShowReasonInput(true)}
-                  className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
                 >
                   Cancel Order
                 </button>
               ) : (
-                <div className="flex flex-col gap-2">
+                <div className="mt-4">
                   <textarea
-                    className="border p-2 rounded w-full"
+                    className="w-full border border-gray-300 p-2 rounded"
                     rows="3"
                     placeholder="Enter cancellation reason..."
                     value={cancellationReason}
                     onChange={(e) => setCancellationReason(e.target.value)}
                   />
                   <button
+                    className="bg-red-500 text-white px-4 py-2 mt-2 rounded hover:bg-red-600"
                     onClick={() => updateOrderStatus("cancelled")}
-                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                   >
                     Submit Cancellation
                   </button>
